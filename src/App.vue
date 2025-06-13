@@ -28,8 +28,8 @@ const gain = ref<number>(0.1);
 // 音声送信
 
 const CONFIG = {
-            BASE_FREQ: 18000,      // 基本周波数
-            FREQ_RANGE: 1000,      // 周波数範囲
+            BASE_FREQ: 17000,      // 基本周波数
+            FREQ_RANGE: 2000,      // 周波数範囲
             NUM_CHANNELS: 32,      // チャンネル数
             SIGNAL_DURATION: 1.0,  // 信号長（秒）
             SAMPLE_RATE: 44100,    // サンプリングレート
@@ -66,43 +66,60 @@ function getFrequencyForChannel(channel: number) {
                 encoderStatus.value = 'ホスト初期化に失敗しました';
             }
         }
-        
+ 
+function delay(ms: number): Promise<boolean> {
+  return new Promise( (resolve) =>  {
+    setTimeout(() => {
+      resolve(true);
+    }, ms)
+  })
+}       
+
         // エフェクト送信
-        function sendEffect(effectId: number) {
+ async function sendEffect(effectId: number) {
             if (!isHostActive || !audioContext) return;
             
             const frequency = getFrequencyForChannel(effectId);
             
-            // 既存のオシレーターを停止
-            if (hostOscillator) {
-                hostOscillator.stop();
-            }
-            
-            // 新しいオシレーターを作成
+            let now = audioContext.currentTime;
+            hostGain.gain.linearRampToValueAtTime(0, now + 0.5);
 
-            let retfn = () => {
-                        
-            hostOscillator = audioContext.createOscillator();
-            hostOscillator.type = 'sine';
-            hostOscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            hostOscillator.connect(hostGain);
-            // エンベロープを設定（フェードイン・フェードアウト）
-            const now = audioContext.currentTime;
-            hostGain.gain.cancelScheduledValues(now);
-            hostGain.gain.setValueAtTime(0, now);
-            hostGain.gain.linearRampToValueAtTime(gain.value, now + 0.1);
-            // hostGain.gain.setValueAtTime(0.1, now + CONFIG.SIGNAL_DURATION - 0.1);
-            hostGain.gain.linearRampToValueAtTime(0, now + CONFIG.SIGNAL_DURATION);
+            // 既存のオシレーターを停止
             
-            // 信号を送信
-            hostOscillator.start(now);
-            hostOscillator.stop(now + CONFIG.SIGNAL_DURATION);
+            let wait = await delay(500);
             
-            // UI更新
-            
-            console.log(`エフェクト送信: ID=${effectId}, 周波数=${frequency}Hz`);
+            if(wait) {
+
+              if (hostOscillator) {
+                hostOscillator.stop();
+              }
+
+              let retfn = () => {
+                
+                hostOscillator = audioContext.createOscillator();
+                hostOscillator.type = 'sine';
+                hostOscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                hostOscillator.connect(hostGain);
+                // エンベロープを設定（フェードイン・フェードアウト）
+                now = audioContext.currentTime;
+                hostGain.gain.cancelScheduledValues(now);
+                hostGain.gain.setValueAtTime(0, now);
+                hostGain.gain.linearRampToValueAtTime(gain.value, now + 0.1);
+                // hostGain.gain.setValueAtTime(0.1, now + CONFIG.SIGNAL_DURATION - 0.1);
+                hostGain.gain.linearRampToValueAtTime(0, now + CONFIG.SIGNAL_DURATION);
+                
+                // 信号を送信
+                hostOscillator.start(now);
+                hostOscillator.stop(now + CONFIG.SIGNAL_DURATION);
+                
+                // UI更新
+                
+                console.log(`エフェクト送信: ID=${effectId}, 周波数=${frequency}Hz`);
+              }
+  
+              signalFn = retfn;
             }
-            return retfn;
+            // 新しいオシレーターを作成
         }
 
 onMounted(() => {
@@ -135,21 +152,13 @@ function connectWebSocket() {
   };
 }
 
-
-setInterval(() => signalFn(), CONFIG.SIGNAL_DURATION * 1000 * 2);
+setInterval(() => {
+  if(typeof signalFn === 'function') signalFn();
+}, CONFIG.SIGNAL_DURATION * 1000 * 2);
 
 function onSelectorButtonClick(effect: Effect) {
   selectedEffect.value = effect;
   if (audioContext) {
-    // if (signalFn) {
-    //   const now = audioContext.currentTime;
-    //   hostGain.gain.cancelScheduledValues(now);
-    //   hostGain.gain.linearRampToValueAtTime(0, now + 0.5);
-    // }
-    // setTimeout(() => {
-    //   signalFn = sendEffect(effect.id);
-    // }, 500);
-
     signalFn = sendEffect(effect.id);
   }
   if (!webSocket) return;
