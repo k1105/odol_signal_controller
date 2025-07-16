@@ -45,7 +45,7 @@ let interval: any = null;
 
 function getFrequencyForChannel(channel: number) {
   const step = CONFIG.FREQ_RANGE / CONFIG.NUM_CHANNELS;
-  return CONFIG.BASE_FREQ + (channel * step);
+  return CONFIG.BASE_FREQ + ((CONFIG.NUM_CHANNELS - channel) * step);
 }
 
 async function initializeHost() {
