@@ -18,7 +18,6 @@ const effectList = ref<any>(Array.from({ length: effectLength }, (_, i) => ({
 
 const page = ref(1);
 const pageLength = effectLength / 16; // Assuming 16 effects per page
-const connectionStatus = ref('Unconnected');
 const encoderStatus = ref('standby')
 const selectedEffect = ref<null | Effect>(null);
 const isEditing = ref<boolean>(false);
