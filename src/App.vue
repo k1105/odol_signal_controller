@@ -6,19 +6,21 @@ import MiniMap from './components/MiniMap.vue';
 import StopButton from './components/StopButton.vue';
 
 type Effect = {
+  index: number;
   id: number;
   name: string;
 };
 
 const effectLength = 32;
 const effectList = ref<any>(Array.from({ length: effectLength }, (_, i) => ({
-  id: i,
+  index: i,
+  id: i % 16,
   name: `Effect ${i + 1}`
 })));
 
-const page = ref(1);
-const pageLength = effectLength / 16; // Assuming 16 effects per page
-const encoderStatus = ref('standby')
+const page = ref<number>(1);
+const pageLength: number = effectLength / 16; // Assuming 16 effects per page
+const encoderStatus = ref<string>('standby')
 const selectedEffect = ref<null | Effect>(null);
 const isEditing = ref<boolean>(false);
 const gain = ref<number>(0.1);
@@ -27,9 +29,9 @@ const signalDuration = ref<number>(0.5);
 // 音声送信
 
 const CONFIG = {
-  BASE_FREQ: 17000,      // 基本周波数
-  FREQ_RANGE: 2000,      // 周波数範囲
-  NUM_CHANNELS: 32,      // チャンネル数
+  BASE_FREQ: 18000,      // 基本周波数
+  FREQ_RANGE: 1000,      // 周波数範囲
+  NUM_CHANNELS: 16,      // チャンネル数
   // SIGNAL_DURATION: 1.0,  // 信号長（秒）
   SAMPLE_RATE: 44100,    // サンプリングレート
   FFT_SIZE: 8192,        // FFT サイズ
@@ -158,8 +160,6 @@ onMounted(() => {
   }
 })
 
-
-
 function onSelectorButtonClick(effect: Effect) {
   selectedEffect.value = effect;
   if (audioContext) {
@@ -227,13 +227,13 @@ function previousPage() {
     </div>
     <div>
       <div v-if="!isEditing" class="selector">
-        <SelectorButton v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.id" :id="effect.id"
-          :name="effect.name" :isSelected="selectedEffect?.id === effect.id" @select="onSelectorButtonClick(effect)">
+        <SelectorButton v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.index" :id="effect.id" :index="effect.index"
+          :name="effect.name" :isSelected="selectedEffect?.index === effect.index" @select="onSelectorButtonClick(effect)">
         </SelectorButton>
       </div>
       <div v-else class="selector">
-        <SelectorButtonEditor v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.id"
-          :id="effect.id" :name="effect.name" @edit="e => onSelectorEdit(e, effect.id)">
+        <SelectorButtonEditor v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.index"
+          :index="effect.index" :id="effect.id" :name="effect.name" @edit="e => onSelectorEdit(e, effect.id)">
         </SelectorButtonEditor>
       </div>
     </div>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 const props = defineProps<{
-  effectList: Array<{ id: number; name: string }>;
-  selectedEffect: { id: number; name: string } | null;
+  effectList: Array<{index: number; id: number; name: string }>;
+  selectedEffect: {index:number; id: number; name: string } | null;
   page: number;
 }>();
 
@@ -18,9 +18,9 @@ function isCurrentPage(page: number): string {
       <div  v-for="i in totalPages" >
         <div :class="isCurrentPage(i)" class="effect-grid">
           <div v-for="effect in props.effectList.slice((i - 1) * 16, i * 16)" 
-             :key="effect.id" 
+             :key="effect.index" 
              >
-            <div class="selected-effect" v-if="effect.id === selectedEffect?.id"></div>
+            <div class="selected-effect" v-if="effect.index === selectedEffect?.index"></div>
             <div class="effect-item" v-else ></div>
           </div>
         </div>

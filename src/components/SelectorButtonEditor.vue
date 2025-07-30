@@ -1,17 +1,20 @@
 <script lang="ts" setup>
 import { onMounted, ref} from 'vue';
 const props = defineProps<{
+  index: number;
   id: number;
   name: string;
 }>();
-const label = ref(props.name);
+const label = ref<string>(props.name);
+const id = ref<number>(props.id);
 const emit = defineEmits(['edit']);
 
 const onChange = () => {
   // Emit the select event with the id
   const emitProps = {
+    index: props.index,
     name: label.value,
-    id: props.id
+    id: id.value
   };
   emit('edit', emitProps);
 };
@@ -22,8 +25,9 @@ const onChange = () => {
   <div class="selector-button">
     <input type="text" v-model="label" class="selector-label" @change="onChange()"/>
     <p class="selector-id">
-      {{ props.id }}
+     id: 
     </p>
+    <input type="number" v-model.number="id" @change="onChange()"/>
   </div>
 </template>
 

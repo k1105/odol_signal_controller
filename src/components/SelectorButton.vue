@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 const props = defineProps<{
+  index: number;
   id: number;
   name: string;
   isSelected: boolean;
@@ -24,7 +25,10 @@ const toggleIndicator = computed(() => {
       {{ props.name }}      
     </p>
     <p class="selector-id">
-      {{ props.id }}
+      id: {{ props.id }}
+    </p>
+    <p class="selector-id">
+      index: {{ props.index }}
     </p>
     <div :class="toggleIndicator"></div>
   </button>
