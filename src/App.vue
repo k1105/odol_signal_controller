@@ -67,48 +67,48 @@ const effectList = ref<any>([
 
   {
     index: 10,
-    id: 10,
+    id: 0,
     name: "please!!!"
   },
   {
     index: 11,
-    id: 11,
+    id: 1,
     name: "anyway"
   },
   {
     index: 12,
-    id: 12,
+    id: 2,
     name: "I hate u"
   },
   {
     index: 13,
-    id: 13,
+    id: 3,
     name: "blueberry gum"
   },
   {
     index: 14,
-    id: 0,
+    id: 4,
     name: "heaven's seven"
   },
 
   {
     index: 15,
-    id: 1,
+    id: 5,
     name: "get new ミライ"
   },
   {
     index: 16,
-    id: 2,
+    id: 6,
     name: "Too young to get it, too fast to live."
   },
   {
     index: 17,
-    id: 3,
+    id: 7,
     name: "Hyper Cracker" 
   },
   {
     index: 18,
-    id: 14,
+    id: 15,
     name: "Begin"
   },
   {
