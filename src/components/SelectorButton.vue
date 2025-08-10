@@ -27,9 +27,6 @@ const toggleIndicator = computed(() => {
     <p class="selector-id">
       id: {{ props.id }}
     </p>
-    <p class="selector-id">
-      index: {{ props.index }}
-    </p>
     <div :class="toggleIndicator"></div>
   </button>
 </template>
@@ -38,7 +35,7 @@ const toggleIndicator = computed(() => {
 .selector-button {
   background-color: white; /* Green */
   border: 2px solid black; /* Green */
-  padding: 2rem 0.25rem;
+  padding: 1rem 0.25rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;

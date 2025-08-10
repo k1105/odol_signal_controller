@@ -11,19 +11,119 @@ type Effect = {
   name: string;
 };
 
-const effectLength = 32;
-const effectList = ref<any>(Array.from({ length: effectLength }, (_, i) => ({
-  index: i,
-  id: i % 16,
-  name: `Effect ${i + 1}`
-})));
+const effectLength = 20;
+const effectList = ref<any>([
+  {
+    index: 0,
+    id: 0,
+    name: "toxic invasion"
+  },
+  {
+    index: 1,
+    id: 1,
+    name: "black nails"
+  },
+  {
+    index: 2,
+    id: 2,
+    name: "no colors"
+  },
+  {
+    index: 3,
+    id: 3,
+    name: "totsugeki!!!!"
+  },
+  {
+    index: 4,
+    id: 4,
+    name: "make a move"
+  },
+
+  {
+    index: 5,
+    id: 5,
+    name: "I won't let you go"
+  },
+  {
+    index: 6,
+    id: 6,
+    name: "darma"
+  },
+  {
+    index: 7,
+    id: 7,
+    name: "ジャ・パ・ニーズ・ガール"
+  },
+  {
+    index: 8,
+    id: 8,
+    name: "sexual conversation"
+  },
+  {
+    index: 9,
+    id: 9,
+    name: "tokyo sky blue"
+  },
+
+  {
+    index: 10,
+    id: 10,
+    name: "please!!!"
+  },
+  {
+    index: 11,
+    id: 11,
+    name: "anyway"
+  },
+  {
+    index: 12,
+    id: 12,
+    name: "I hate u"
+  },
+  {
+    index: 13,
+    id: 13,
+    name: "blueberry gum"
+  },
+  {
+    index: 14,
+    id: 0,
+    name: "heaven's seven"
+  },
+
+  {
+    index: 15,
+    id: 1,
+    name: "get new ミライ"
+  },
+  {
+    index: 16,
+    id: 2,
+    name: "Too young to get it, too fast to live."
+  },
+  {
+    index: 17,
+    id: 3,
+    name: "Hyper Cracker" 
+  },
+  {
+    index: 18,
+    id: 14,
+    name: "Begin"
+  },
+  {
+    index: 19,
+    id: 15,
+    name: "End"
+  },
+]);
 
 const page = ref<number>(1);
-const pageLength: number = effectLength / 16; // Assuming 16 effects per page
+const pageLength: number = effectLength / 20; // Assuming 16 effects per page
 const encoderStatus = ref<string>('standby')
 const selectedEffect = ref<null | Effect>(null);
 const isEditing = ref<boolean>(false);
-const gain = ref<number>(0.1);
+const gain = ref<number>(0.5);
 const signalDuration = ref<number>(0.5);
 
 // 音声送信
@@ -152,12 +252,6 @@ function stopEffect() {
 
 onMounted(() => {
   initializeHost();
-  if (localStorage.getItem('effectList')) {
-    effectList.value = JSON.parse(localStorage.getItem('effectList') || "[]");
-  }
-  else {
-    localStorage.setItem('effectList', JSON.stringify(effectList.value));
-  }
 })
 
 function onSelectorButtonClick(effect: Effect) {
@@ -220,19 +314,15 @@ function previousPage() {
           </div>
         </div>
       </div>
-      <div>
-        <MiniMap :effectList="effectList" :selectedEffect="selectedEffect" :page="page">
-        </MiniMap>
-      </div>
     </div>
     <div>
       <div v-if="!isEditing" class="selector">
-        <SelectorButton v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.index" :id="effect.id" :index="effect.index"
+        <SelectorButton v-for="effect in effectList.slice((page - 1) * 20, page * 20)" :key="effect.index" :id="effect.id" :index="effect.index"
           :name="effect.name" :isSelected="selectedEffect?.index === effect.index" @select="onSelectorButtonClick(effect)">
         </SelectorButton>
       </div>
       <div v-else class="selector">
-        <SelectorButtonEditor v-for="effect in effectList.slice((page - 1) * 16, page * 16)" :key="effect.index"
+        <SelectorButtonEditor v-for="effect in effectList.slice((page - 1) * 20, page * 20)" :key="effect.index"
           :index="effect.index" :id="effect.id" :name="effect.name" @edit="e => onSelectorEdit(e, effect.id)">
         </SelectorButtonEditor>
       </div>
@@ -252,7 +342,7 @@ p {
 
 .selector {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   margin: 20px 0;
 }
