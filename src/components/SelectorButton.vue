@@ -1,76 +1,73 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue'
 const props = defineProps<{
-  index: number;
-  id: number;
-  name: string;
-  isSelected: boolean;
-}>();
-const emit = defineEmits(['select']);
+  index: number
+  id: number
+  isSelected: boolean
+}>()
+const emit = defineEmits(['select'])
 
 const onClick = () => {
   // Emit the select event with the id
-  emit('select', props.id);
-};
+  emit('select', props.id)
+}
 
 const toggleIndicator = computed(() => {
-  return props.isSelected ? 'toggle-selected' : 'toggle-unselected';
-});
-
+  return props.isSelected ? 'toggle-selected' : 'toggle-unselected'
+})
 </script>
 
 <template>
   <button class="selector-button" @click="onClick">
-    <p class="selector-label">
-      {{ props.name }}      
-    </p>
-    <p class="selector-id">
-      id: {{ props.id }}
-    </p>
+    <p class="selector-id">id: {{ props.id }}</p>
     <div :class="toggleIndicator"></div>
   </button>
 </template>
 
 <style scoped>
 .selector-button {
-  background-color: white; /* Green */
-  border: 2px solid black; /* Green */
-  padding: 1rem 0.25rem;
+  background-color: #000;
+  border: 2px solid #fff;
+  padding: 1rem;
   text-decoration: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin: 4px 2px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selector-button:hover {
+  background-color: #222;
 }
 
 .selector-label {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
-  color: black;
+  color: #fff;
   margin: 0;
 }
 
 .selector-id {
-  font-size: 1rem;
-  color: gray;
+  font-size: 0.8rem;
+  color: #ccc;
   margin: 0;
 }
 
 .toggle-unselected {
-  width: 4rem;
-  height: 1rem;
-  border: 2px solid black; /* Green */
-  background-color: white; /* Green */
+  width: 3rem;
+  height: 0.8rem;
+  border: 2px solid #fff;
+  background-color: transparent;
   position: relative;
 }
 
 .toggle-selected {
-  width: 4rem;
-  height: 1rem;
-  border: 2px solid black; /* Green */
-  background-color: green; /* Green */
+  width: 3rem;
+  height: 0.8rem;
+  border: 2px solid #fff;
+  background-color: #f44336;
 }
 </style>

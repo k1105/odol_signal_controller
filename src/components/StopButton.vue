@@ -1,70 +1,49 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-const props = defineProps<{
-  isSelected: boolean;
-}>();
-const emit = defineEmits(['stop']);
+const emit = defineEmits(['stop'])
 
 const onClick = () => {
   // Emit the select event with the id
-  emit('stop');
-};
-
-const toggleIndicator = computed(() => {
-  return props.isSelected ? 'toggle-selected' : 'toggle-unselected';
-});
-
+  emit('stop')
+}
 </script>
 
 <template>
-  <button class="selector-button" @click="onClick">
-    <p class="selector-label">
-      STOP     
-    </p>
-    <div :class="toggleIndicator"></div>
+  <button class="stop-button" @click="onClick">
+    <span class="stop-label">STOP</span>
   </button>
 </template>
 
 <style scoped>
-.selector-button {
-  background-color: white; /* Green */
-  border: 2px solid red; /* Green */
-  padding: 3rem 3rem;
-  text-decoration: none;
+.stop-button {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #f44336;
+  border: 3px solid #fff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  margin: 4px 2px;
-  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
 }
 
-.selector-label {
-  font-size: 1rem;
-  font-weight: bold;
-  color: black;
-  margin: 0;
+.stop-button:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4);
 }
 
-.selector-id {
-  font-size: 1rem;
-  color: gray;
-  margin: 0;
+.stop-button:active {
+  transform: scale(0.95);
 }
 
-.toggle-unselected {
-  width: 4rem;
-  height: 1rem;
-  border: 2px solid black; /* Green */
-  background-color: white; /* Green */
-  position: relative;
-}
-
-.toggle-selected {
-  width: 4rem;
-  height: 1rem;
-  border: 2px solid black; /* Green */
-  background-color: red; /* Green */
+.stop-label {
+  user-select: none;
+  text-align: center;
 }
 </style>
