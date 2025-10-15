@@ -18,9 +18,10 @@ const onClick = () => {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: #f44336;
-  border: 3px solid #fff;
-  color: #fff;
+  background-color: #fff;
+  border: 3px solid #f44336;
+  box-shadow: 0 0 0 3px white;
+  color: #f44336;
   font-weight: bold;
   font-size: 1.2rem;
   cursor: pointer;
@@ -29,13 +30,11 @@ const onClick = () => {
   justify-content: center;
   transition: all 0.2s ease;
   text-transform: uppercase;
-  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
 }
 
 .stop-button:hover {
-  background-color: #e53935;
+  background-color: #f5f5f5;
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(244, 67, 54, 0.4);
 }
 
 .stop-button:active {
