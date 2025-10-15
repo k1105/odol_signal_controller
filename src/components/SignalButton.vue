@@ -44,16 +44,23 @@ const drawButton = (p: p5) => {
 
   p.noFill()
   p.stroke(c)
-  p.strokeWeight(6)
+  p.strokeWeight(8)
+  p.strokeJoin(p.ROUND)
 
   if (props.isSelected) {
+    p.stroke(255)
+
+    const r = buttonSize / 2
+    const numVertex = 100
+
     p.beginShape()
-    for (let i = 0; i < 10; i++) {
-      const angle = p.map(i, 0, 10, 0, p.TWO_PI) - p.HALF_PI
-      const r = i % 2 === 0 ? buttonSize / 2 : (buttonSize / 2) * 0.5
-      const x = r * p.cos(angle)
-      const y = r * p.sin(angle)
-      p.vertex(x, y)
+    for (let i = 0; i < numVertex; i++) {
+      const distortedRadius =
+        r + 20 * (p.sin(p.millis() / 200) * p.sin((7 * i * p.TWO_PI) / numVertex) - 0.2)
+      p.vertex(
+        distortedRadius * p.cos((i * p.TWO_PI) / numVertex),
+        distortedRadius * p.sin((i * p.TWO_PI) / numVertex),
+      )
     }
     p.endShape(p.CLOSE)
   } else {
@@ -68,7 +75,7 @@ onMounted(() => {
 
   const sketch = (p: p5) => {
     p.setup = () => {
-      p.createCanvas(70, 70)
+      p.createCanvas(100, 100)
       p.frameRate(30)
     }
 
