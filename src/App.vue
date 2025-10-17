@@ -55,7 +55,7 @@ const blueEffectList = ref<Effect[]>([
     index: 6,
     id: 6,
     name: 'Star Filter',
-    imageUrl: 'public/star_filter.png',
+    imageUrl: '/star_filter.png',
   },
   {
     index: 7,
