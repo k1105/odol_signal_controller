@@ -13,7 +13,8 @@ type Effect = {
   imageUrl?: string
 }
 
-const effectList = ref<Effect[]>([
+// BLUE用エフェクトリスト (ID: 0-8)
+const blueEffectList = ref<Effect[]>([
   {
     index: 0,
     id: 0,
@@ -53,8 +54,8 @@ const effectList = ref<Effect[]>([
   {
     index: 6,
     id: 6,
-    name: 'No effect',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
+    name: 'Star Filter',
+    imageUrl: 'public/star_filter.png',
   },
   {
     index: 7,
@@ -67,6 +68,122 @@ const effectList = ref<Effect[]>([
     id: 8,
     name: 'No effect',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
+  },
+])
+
+// YELLOW用エフェクトリスト (ID: 12-20)
+const yellowEffectList = ref<Effect[]>([
+  {
+    index: 0,
+    id: 12,
+    name: 'Yellow Effect 1',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+1',
+  },
+  {
+    index: 1,
+    id: 13,
+    name: 'Yellow Effect 2',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+2',
+  },
+  {
+    index: 2,
+    id: 14,
+    name: 'Yellow Effect 3',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+3',
+  },
+  {
+    index: 3,
+    id: 15,
+    name: 'Yellow Effect 4',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+4',
+  },
+  {
+    index: 4,
+    id: 16,
+    name: 'Yellow Effect 5',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+5',
+  },
+  {
+    index: 5,
+    id: 17,
+    name: 'Yellow Effect 6',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+6',
+  },
+  {
+    index: 6,
+    id: 18,
+    name: 'Yellow Effect 7',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+7',
+  },
+  {
+    index: 7,
+    id: 19,
+    name: 'Yellow Effect 8',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+8',
+  },
+  {
+    index: 8,
+    id: 20,
+    name: 'Yellow Effect 9',
+    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+9',
+  },
+])
+
+// RED用エフェクトリスト (ID: 21-29)
+const redEffectList = ref<Effect[]>([
+  {
+    index: 0,
+    id: 21,
+    name: 'Red Effect 1',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+1',
+  },
+  {
+    index: 1,
+    id: 22,
+    name: 'Red Effect 2',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+2',
+  },
+  {
+    index: 2,
+    id: 23,
+    name: 'Red Effect 3',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+3',
+  },
+  {
+    index: 3,
+    id: 24,
+    name: 'Red Effect 4',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+4',
+  },
+  {
+    index: 4,
+    id: 25,
+    name: 'Red Effect 5',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+5',
+  },
+  {
+    index: 5,
+    id: 26,
+    name: 'Red Effect 6',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+6',
+  },
+  {
+    index: 6,
+    id: 27,
+    name: 'Red Effect 7',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+7',
+  },
+  {
+    index: 7,
+    id: 28,
+    name: 'Red Effect 8',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+8',
+  },
+  {
+    index: 8,
+    id: 29,
+    name: 'Red Effect 9',
+    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+9',
   },
 ])
 
@@ -86,6 +203,26 @@ const selectedSignalColor = computed(() => {
   if (selectedSignalId.value === null) return '#bbbbbb' // SignalButtonが選択されていない場合は白
   const selectedButton = signalButtons.find((btn) => btn.id === selectedSignalId.value)
   return selectedButton?.color ?? '#fff'
+})
+
+// 選択されている色に応じたエフェクトリストを返す
+const currentEffectList = computed(() => {
+  // 色が選択されていない場合はBLUEをデフォルト表示（グレーアウト状態）
+  if (selectedSignalId.value === null) return blueEffectList.value
+
+  const selectedButton = signalButtons.find((btn) => btn.id === selectedSignalId.value)
+  if (!selectedButton) return blueEffectList.value
+
+  switch (selectedButton.label) {
+    case 'BLUE':
+      return blueEffectList.value
+    case 'YELLOW':
+      return yellowEffectList.value
+    case 'RED':
+      return redEffectList.value
+    default:
+      return blueEffectList.value
+  }
 })
 
 // 音声送信
@@ -339,10 +476,14 @@ function onSignalButtonClick(id: number) {
   // 同じシグナルがクリックされた場合は選択を解除
   if (selectedSignalId.value === id) {
     selectedSignalId.value = null
+    selectedEffect.value = null
   } else {
+    // 異なる色に切り替えた場合は、エフェクトの選択をクリア
+    if (selectedSignalId.value !== null && selectedSignalId.value !== id) {
+      selectedEffect.value = null
+    }
     selectedSignalId.value = id
   }
-  // SelectorButtonの選択は維持する
   startSignalEmission()
 }
 
@@ -397,8 +538,8 @@ const nowPlayingText = computed(() => {
     <!-- Effects Grid - Full Width -->
     <div class="effects-grid">
       <SelectorButton
-        v-for="effect in effectList"
-        :key="effect.index"
+        v-for="effect in currentEffectList"
+        :key="effect.id"
         :id="effect.id"
         :index="effect.index"
         :name="effect.name"

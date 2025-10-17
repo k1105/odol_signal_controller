@@ -109,8 +109,7 @@ const onImageError = () => {
 
 .preview-image {
   width: 100%;
-  height: 100%;
-  max-height: 180px;
+  height: 20vh;
   object-fit: cover;
   object-position: center;
   border-radius: 4px;
