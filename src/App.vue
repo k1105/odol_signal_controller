@@ -17,7 +17,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 0,
     name: 'Arrow',
-    imageUrl: '/arrow.png',
+    imageUrl: '/blue/arrow.png',
   },
   {
     index: 1,
@@ -27,12 +27,12 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 2,
     name: 'Signal Grid',
-    imageUrl: '/signal_grid.png',
+    imageUrl: '/blue/signal_grid.png',
   },
   {
     index: 3,
     name: 'Psychedelic effect',
-    imageUrl: '/psychedelic_effect.png',
+    imageUrl: '/blue/psychedelic_effect.png',
   },
   {
     index: 4,
@@ -47,7 +47,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 6,
     name: 'Star Filter',
-    imageUrl: '/star_filter.png',
+    imageUrl: '/blue/star_filter.png',
   },
   {
     index: 7,
@@ -129,8 +129,8 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 3,
-    name: 'Red Effect 4',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+4',
+    name: 'Psychedelic effect',
+    imageUrl: '/red/psychedelic_effect.png',
   },
   {
     index: 4,
