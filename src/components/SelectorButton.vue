@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 const props = defineProps<{
   index: number
-  id: number
   name: string
   imageUrl?: string
   isSelected: boolean
@@ -15,8 +14,8 @@ const emit = defineEmits(['select'])
 const imageError = ref(false)
 
 const onClick = () => {
-  // Emit the select event with the id
-  emit('select', props.id)
+  // Emit the select event with the index
+  emit('select', props.index)
 }
 
 const onImageError = () => {

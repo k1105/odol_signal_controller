@@ -8,7 +8,6 @@ import IconRefresh from '~icons/mdi/refresh'
 
 type Effect = {
   index: number
-  id: number
   name: string
   imageUrl?: string
 }
@@ -17,55 +16,46 @@ type Effect = {
 const blueEffectList = ref<Effect[]>([
   {
     index: 0,
-    id: 0,
     name: 'Arrow',
     imageUrl: '/arrow.png',
   },
   {
     index: 1,
-    id: 1,
     name: 'Effect name',
     imageUrl: 'https://via.placeholder.com/200x150/ffffff/000000?text=A+Pattern',
   },
   {
     index: 2,
-    id: 2,
     name: 'Signal Grid',
     imageUrl: '/signal_grid.png',
   },
   {
     index: 3,
-    id: 3,
-    name: 'Effect name',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+4',
+    name: 'Psychedelic effect',
+    imageUrl: '/psychedelic_effect.png',
   },
   {
     index: 4,
-    id: 4,
     name: 'Effect name',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+5',
   },
   {
     index: 5,
-    id: 5,
     name: 'Effect name',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+6',
   },
   {
     index: 6,
-    id: 6,
     name: 'Star Filter',
     imageUrl: '/star_filter.png',
   },
   {
     index: 7,
-    id: 7,
     name: 'No effect',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
   },
   {
     index: 8,
-    id: 8,
     name: 'No effect',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
   },
@@ -75,55 +65,46 @@ const blueEffectList = ref<Effect[]>([
 const yellowEffectList = ref<Effect[]>([
   {
     index: 0,
-    id: 12,
     name: 'Yellow Effect 1',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+1',
   },
   {
     index: 1,
-    id: 13,
     name: 'Yellow Effect 2',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+2',
   },
   {
     index: 2,
-    id: 14,
     name: 'Yellow Effect 3',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+3',
   },
   {
     index: 3,
-    id: 15,
     name: 'Yellow Effect 4',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+4',
   },
   {
     index: 4,
-    id: 16,
     name: 'Yellow Effect 5',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+5',
   },
   {
     index: 5,
-    id: 17,
     name: 'Yellow Effect 6',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+6',
   },
   {
     index: 6,
-    id: 18,
     name: 'Yellow Effect 7',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+7',
   },
   {
     index: 7,
-    id: 19,
     name: 'Yellow Effect 8',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+8',
   },
   {
     index: 8,
-    id: 20,
     name: 'Yellow Effect 9',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+9',
   },
@@ -133,55 +114,46 @@ const yellowEffectList = ref<Effect[]>([
 const redEffectList = ref<Effect[]>([
   {
     index: 0,
-    id: 21,
     name: 'Red Effect 1',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+1',
   },
   {
     index: 1,
-    id: 22,
     name: 'Red Effect 2',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+2',
   },
   {
     index: 2,
-    id: 23,
     name: 'Red Effect 3',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+3',
   },
   {
     index: 3,
-    id: 24,
     name: 'Red Effect 4',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+4',
   },
   {
     index: 4,
-    id: 25,
     name: 'Red Effect 5',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+5',
   },
   {
     index: 5,
-    id: 26,
     name: 'Red Effect 6',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+6',
   },
   {
     index: 6,
-    id: 27,
     name: 'Red Effect 7',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+7',
   },
   {
     index: 7,
-    id: 28,
     name: 'Red Effect 8',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+8',
   },
   {
     index: 8,
-    id: 29,
     name: 'Red Effect 9',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+9',
   },
@@ -345,7 +317,7 @@ function startSignalEmission() {
 
   // Effectのみ選択されている場合
   if (selectedEffect.value && selectedSignalId.value === null) {
-    sendEffect(selectedEffect.value.id, signalDuration.value)
+    sendEffect(selectedEffect.value.index, signalDuration.value)
     return
   }
 
@@ -377,7 +349,7 @@ function sendSignalOrEffect() {
   // カウンターに基づいて送信するIDを決定
   // 0: Signal, 1-3: Effect
   const shouldSendSignal = emissionCounter % 4 === 0
-  const idToSend = shouldSendSignal ? selectedSignalId.value : selectedEffect.value.id
+  const idToSend = shouldSendSignal ? selectedSignalId.value : selectedEffect.value.index
 
   // 実際の送信（sendEffect関数を使わずに直接実装）
   sendSingleSignal(idToSend, signalDuration.value)
@@ -463,7 +435,7 @@ onMounted(() => {
 
 function onSelectorButtonClick(effect: Effect) {
   // 同じエフェクトがクリックされた場合は選択を解除
-  if (selectedEffect.value?.id === effect.id) {
+  if (selectedEffect.value?.index === effect.index) {
     selectedEffect.value = null
   } else {
     selectedEffect.value = effect
@@ -505,12 +477,12 @@ const nowPlayingText = computed(() => {
     const signal = signalButtons.find((s) => s.id === selectedSignalId.value)
     const signalName = signal?.label || 'SIGNAL'
     const effectName = selectedEffect.value.name
-    return `[SIGNAL: ${signalName}] + [EFFECT: ${effectName}] - ID: ${selectedSignalId.value}/${selectedEffect.value.id} - `
+    return `[SIGNAL: ${signalName}] + [EFFECT: ${effectName}] - ID: ${selectedSignalId.value}/${selectedEffect.value.index} - `
   }
 
   // Effectのみ選択されている場合
   if (selectedEffect.value) {
-    id = selectedEffect.value.id
+    id = selectedEffect.value.index
     name = selectedEffect.value.name
   } else if (selectedSignalId.value !== null) {
     // Signalのみ選択されている場合
@@ -539,8 +511,7 @@ const nowPlayingText = computed(() => {
     <div class="effects-grid">
       <SelectorButton
         v-for="effect in currentEffectList"
-        :key="effect.id"
-        :id="effect.id"
+        :key="effect.index"
         :index="effect.index"
         :name="effect.name"
         :imageUrl="effect.imageUrl"
