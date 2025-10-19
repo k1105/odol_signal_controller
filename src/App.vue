@@ -19,7 +19,7 @@ const blueEffectList = ref<Effect[]>([
     index: 0,
     id: 0,
     name: 'Arrow',
-    imageUrl: 'https://via.placeholder.com/200x150/ff0000/ffffff?text=Red+Blob',
+    imageUrl: '/arrow.png',
   },
   {
     index: 1,
@@ -30,8 +30,8 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 2,
     id: 2,
-    name: 'Effect name',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+3',
+    name: 'Signal Grid',
+    imageUrl: '/signal_grid.png',
   },
   {
     index: 3,
