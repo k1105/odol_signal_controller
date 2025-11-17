@@ -327,32 +327,39 @@ function startSignalEmission() {
     return
   }
 
-  // 両方選択されている場合：Signal/Effect/Effect/Effect パターン
+  // 両方選択されている場合：Signal/休止/Effect/休止 パターン
   if (selectedEffect.value && selectedSignalId.value !== null) {
     // 最初の送信を即座に実行
     sendSignalOrEffect()
 
-    // インターバルを設定
-    interval = setInterval(
-      () => {
-        sendSignalOrEffect()
-      },
-      signalDuration.value * 1000 * 1.5,
-    )
+    // インターバルを設定（一拍ごとに実行）
+    interval = setInterval(() => {
+      sendSignalOrEffect()
+    }, signalDuration.value * 1000)
   }
 }
 
-// Signal/Effect/Effect/Effect パターンで送信
+// Signal/休止/Effect/休止 パターンで送信
 function sendSignalOrEffect() {
   if (!selectedEffect.value || selectedSignalId.value === null) return
 
   // カウンターに基づいて送信するIDを決定
-  // 0: Signal, 1-3: Effect
-  const shouldSendSignal = emissionCounter % 4 === 0
-  const idToSend = shouldSendSignal ? selectedSignalId.value : selectedEffect.value.index
+  // 0: Signal送信, 1: 休止, 2: Effect送信, 3: 休止
+  const step = emissionCounter % 4
 
-  // 実際の送信（sendEffect関数を使わずに直接実装）
-  sendSingleSignal(idToSend, signalDuration.value)
+  if (step === 0) {
+    // Signal送信
+    sendSingleSignal(selectedSignalId.value, signalDuration.value)
+  } else if (step === 1) {
+    // 一拍休止（何もしない）
+    console.log('一拍休止')
+  } else if (step === 2) {
+    // Effect送信
+    sendSingleSignal(selectedEffect.value.index, signalDuration.value)
+  } else if (step === 3) {
+    // 一拍休止（何もしない）
+    console.log('一拍休止')
+  }
 
   // カウンターをインクリメント
   emissionCounter++
