@@ -170,6 +170,12 @@ const selectedSignalId = ref<number | null>(null)
 const gain = ref<number>(0.5)
 const signalDuration = ref<number>(0.5)
 
+// エフェクト7-9（インデックス6-8）の長押し用状態管理
+const isHoldingEffect7to9 = ref(false)
+const heldEffectIndex = ref<number | null>(null) // 長押し中のエフェクトインデックス（6-8）
+const previousEffect = ref<null | Effect>(null) // 長押し前に選択されていたエフェクト
+const holdInterval: { value: number | null } = { value: null } // 長押し中のインターバル
+
 // 選択されている SignalButton の色を取得
 const selectedSignalColor = computed(() => {
   if (selectedSignalId.value === null) return '#bbbbbb' // SignalButtonが選択されていない場合は白
@@ -310,6 +316,16 @@ function startSignalEmission() {
   // カウンターをリセット
   emissionCounter = 0
 
+  // 長押し中の場合は特別な処理
+  if (
+    isHoldingEffect7to9.value &&
+    heldEffectIndex.value !== null &&
+    selectedSignalId.value !== null
+  ) {
+    startHoldEmission()
+    return
+  }
+
   // どちらも選択されていない場合は停止
   if (!selectedEffect.value && selectedSignalId.value === null) {
     return
@@ -359,6 +375,43 @@ function sendSignalOrEffect() {
   } else if (step === 3) {
     // 一拍休止（何もしない）
     console.log('一拍休止')
+  }
+
+  // カウンターをインクリメント
+  emissionCounter++
+}
+
+// 長押し中の音声出力（7-9と色の信号が交互に流れる）
+function startHoldEmission() {
+  if (!isHostActive || !audioContext) return
+  if (heldEffectIndex.value === null || selectedSignalId.value === null) return
+
+  // カウンターをリセット
+  emissionCounter = 0
+
+  // 最初の送信を即座に実行
+  sendHoldSignalOrEffect()
+
+  // インターバルを設定（一拍ごとに実行）
+  holdInterval.value = setInterval(() => {
+    sendHoldSignalOrEffect()
+  }, signalDuration.value * 1000)
+}
+
+// 長押し中：7-9の信号と色の信号が交互に流れる
+function sendHoldSignalOrEffect() {
+  if (heldEffectIndex.value === null || selectedSignalId.value === null) return
+
+  // カウンターに基づいて送信するIDを決定
+  // 0: 7-9のエフェクト送信, 1: 色の信号送信
+  const step = emissionCounter % 2
+
+  if (step === 0) {
+    // 7-9のエフェクト送信
+    sendSingleSignal(heldEffectIndex.value, signalDuration.value)
+  } else {
+    // 色の信号送信
+    sendSingleSignal(selectedSignalId.value, signalDuration.value)
   }
 
   // カウンターをインクリメント
@@ -433,6 +486,10 @@ function stopAudio() {
   }
 
   if (interval) clearInterval(interval)
+  if (holdInterval.value) {
+    clearInterval(holdInterval.value)
+    holdInterval.value = null
+  }
   emissionCounter = 0
 }
 
@@ -441,6 +498,11 @@ onMounted(() => {
 })
 
 function onSelectorButtonClick(effect: Effect) {
+  // エフェクト7-9（インデックス6-8）の場合は通常のクリックでは選択しない
+  if (effect.index >= 6 && effect.index <= 8) {
+    return
+  }
+
   // 同じエフェクトがクリックされた場合は選択を解除
   if (selectedEffect.value?.index === effect.index) {
     selectedEffect.value = null
@@ -449,6 +511,48 @@ function onSelectorButtonClick(effect: Effect) {
   }
   // SignalButtonの選択は維持する
   startSignalEmission()
+}
+
+// エフェクト7-9の長押し開始
+function onEffect7to9HoldStart(effect: Effect) {
+  if (effect.index < 6 || effect.index > 8) return
+  if (selectedSignalId.value === null) return // 色が選択されていない場合は無効
+
+  // 現在選択されているエフェクトを保存（7-9以外の場合）
+  if (selectedEffect.value && selectedEffect.value.index < 6) {
+    previousEffect.value = selectedEffect.value
+  } else {
+    previousEffect.value = null
+  }
+
+  // 長押し状態を設定
+  isHoldingEffect7to9.value = true
+  heldEffectIndex.value = effect.index
+
+  // 音声出力を開始
+  startSignalEmission()
+}
+
+// エフェクト7-9の長押し終了
+function onEffect7to9HoldEnd() {
+  if (!isHoldingEffect7to9.value) return
+
+  // 長押し状態を解除
+  isHoldingEffect7to9.value = false
+  heldEffectIndex.value = null
+
+  // 音声を停止
+  stopAudio()
+
+  // 前のエフェクトが存在する場合は、そのエフェクトの音を流す
+  if (previousEffect.value && selectedSignalId.value !== null) {
+    selectedEffect.value = previousEffect.value
+    previousEffect.value = null
+    startSignalEmission()
+  } else {
+    // 前のエフェクトがない場合は、選択状態をクリア
+    selectedEffect.value = null
+  }
 }
 
 function onSignalButtonClick(id: number) {
@@ -522,10 +626,14 @@ const nowPlayingText = computed(() => {
         :index="effect.index"
         :name="effect.name"
         :imageUrl="effect.imageUrl"
-        :isSelected="selectedEffect?.index === effect.index"
+        :isSelected="selectedEffect?.index === effect.index && !isHoldingEffect7to9"
         :borderColor="selectedSignalColor"
         :disabled="selectedSignalId === null"
+        :isEffect7to9="effect.index >= 6 && effect.index <= 8"
+        :isHolding="isHoldingEffect7to9 && heldEffectIndex === effect.index"
         @select="onSelectorButtonClick(effect)"
+        @hold-start="onEffect7to9HoldStart(effect)"
+        @hold-end="onEffect7to9HoldEnd"
       >
       </SelectorButton>
     </div>
