@@ -21,13 +21,13 @@ const blueEffectList = ref<Effect[]>([
   },
   {
     index: 1,
-    name: 'Effect name',
-    imageUrl: 'https://via.placeholder.com/200x150/ffffff/000000?text=A+Pattern',
+    name: 'Signal Grid',
+    imageUrl: '/blue/signal_grid.png',
   },
   {
     index: 2,
-    name: 'Signal Grid',
-    imageUrl: '/blue/signal_grid.png',
+    name: 'Stop',
+    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+5',
   },
   {
     index: 3,
@@ -41,7 +41,7 @@ const blueEffectList = ref<Effect[]>([
   },
   {
     index: 5,
-    name: 'Effect name',
+    name: 'Stop',
     imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+6',
   },
   {
@@ -75,7 +75,7 @@ const yellowEffectList = ref<Effect[]>([
   },
   {
     index: 2,
-    name: 'Yellow Effect 3',
+    name: 'Stop',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+3',
   },
   {
@@ -90,7 +90,7 @@ const yellowEffectList = ref<Effect[]>([
   },
   {
     index: 5,
-    name: 'Yellow Effect 6',
+    name: 'Stop',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+6',
   },
   {
@@ -124,7 +124,7 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 2,
-    name: 'Red Effect 3',
+    name: 'Stop',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+3',
   },
   {
@@ -139,7 +139,7 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 5,
-    name: 'Red Effect 6',
+    name: 'Stop',
     imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+6',
   },
   {
