@@ -65,8 +65,8 @@ const blueEffectList = ref<Effect[]>([
 const yellowEffectList = ref<Effect[]>([
   {
     index: 0,
-    name: 'Yellow Effect 1',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+1',
+    name: 'dan-dan',
+    imageUrl: '/yellow/dan-dan.png',
   },
   {
     index: 1,
@@ -95,8 +95,8 @@ const yellowEffectList = ref<Effect[]>([
   },
   {
     index: 6,
-    name: 'Yellow Effect 7',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+7',
+    name: 'sparkle',
+    imageUrl: '/yellow/sparkle.png',
   },
   {
     index: 7,
