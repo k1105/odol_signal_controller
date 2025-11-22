@@ -31,7 +31,7 @@ const blueEffectList = ref<Effect[]>([
   },
   {
     index: 3,
-    name: 'Psychedelic effect',
+    name: 'Psychedelic',
     imageUrl: '/blue/psychedelic_effect.png',
   },
   {
@@ -80,8 +80,8 @@ const yellowEffectList = ref<Effect[]>([
   },
   {
     index: 3,
-    name: 'Yellow Effect 4',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+4',
+    name: 'Psychedelic',
+    imageUrl: '/yellow/psychedelic_effect.png',
   },
   {
     index: 4,
@@ -129,7 +129,7 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 3,
-    name: 'Psychedelic effect',
+    name: 'Psychedelic',
     imageUrl: '/red/psychedelic_effect.png',
   },
   {
