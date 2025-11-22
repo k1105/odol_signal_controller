@@ -21,7 +21,7 @@ const blueEffectList = ref<Effect[]>([
   },
   {
     index: 1,
-    name: 'Signal Grid',
+    name: 'Walkman',
     imageUrl: '/blue/signal_grid.png',
   },
   {
