@@ -552,7 +552,7 @@ const nowPlayingText = computed(() => {
     <div class="effects-grid">
       <SelectorButton
         v-for="effect in currentEffectList"
-        :key="effect.index"
+        :key="`${selectedSignalId || 'blue'}-${effect.index}`"
         :index="effect.index"
         :name="effect.name"
         :imageUrl="effect.imageUrl"

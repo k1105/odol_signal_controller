@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps<{
   index: number
@@ -12,6 +12,7 @@ const props = defineProps<{
 const emit = defineEmits(['select'])
 
 const imageError = ref(false)
+const imageKey = ref(0)
 
 const onClick = () => {
   // Emit the select event with the effect object
@@ -21,6 +22,15 @@ const onClick = () => {
 const onImageError = () => {
   imageError.value = true
 }
+
+// imageUrlが変更されたときに、画像エラー状態をリセットして強制的に再読み込み
+watch(
+  () => props.imageUrl,
+  () => {
+    imageError.value = false
+    imageKey.value++
+  },
+)
 </script>
 
 <template>
@@ -33,12 +43,13 @@ const onImageError = () => {
     <div class="effect-preview">
       <img
         v-if="props.imageUrl && !imageError"
+        :key="`${imageKey}-${props.imageUrl}`"
         :src="props.imageUrl"
         :alt="props.name"
         class="preview-image"
         @error="onImageError"
       />
-      <img v-else src="/effect_placeholder.png" :alt="props.name" class="preview-image" />
+      <img v-else :key="`placeholder-${imageKey}`" src="/effect_placeholder.png" :alt="props.name" class="preview-image" />
     </div>
     <div class="effect-index">{{ props.index + 1 }}</div>
   </button>
