@@ -167,6 +167,7 @@ const signalButtons = [
 
 const selectedEffect = ref<null | Effect>(null)
 const selectedSignalId = ref<number | null>(null)
+const isStopSignalActive = ref(false) // id: 12が送信されているかどうか
 const gain = ref<number>(0.5)
 const signalDuration = ref<number>(0.5)
 
@@ -310,6 +311,18 @@ function startSignalEmission() {
   // カウンターをリセット
   emissionCounter = 0
 
+  // Stop信号（id: 12）がアクティブな場合
+  if (isStopSignalActive.value) {
+    // 最初の送信を即座に実行
+    sendSingleSignal(12, signalDuration.value)
+
+    // インターバルを設定（一拍ごとに実行）
+    interval = setInterval(() => {
+      sendSingleSignal(12, signalDuration.value)
+    }, signalDuration.value * 1000)
+    return
+  }
+
   // どちらも選択されていない場合は停止
   if (!selectedEffect.value && selectedSignalId.value === null) {
     return
@@ -406,12 +419,22 @@ async function sendSingleSignal(id: number, duration: number) {
 function stopEffect() {
   if (!isHostActive || !audioContext) return
 
-  // 選択状態をクリア
+  // Stop信号が既にアクティブな場合は、停止して選択状態をクリア
+  if (isStopSignalActive.value) {
+    isStopSignalActive.value = false
+    selectedEffect.value = null
+    selectedSignalId.value = null
+    stopAudio()
+    return
+  }
+
+  // Stop信号をアクティブにする（他の選択状態をクリア）
   selectedEffect.value = null
   selectedSignalId.value = null
+  isStopSignalActive.value = true
 
-  // 音声を停止
-  stopAudio()
+  // id: 12を送信
+  startSignalEmission()
 }
 
 // 音声のみを停止する関数（選択状態は維持）
@@ -441,6 +464,9 @@ onMounted(() => {
 })
 
 function onSelectorButtonClick(effect: Effect) {
+  // Stop信号を無効化
+  isStopSignalActive.value = false
+
   // 同じエフェクトがクリックされた場合は選択を解除
   if (selectedEffect.value?.index === effect.index) {
     selectedEffect.value = null
@@ -452,6 +478,9 @@ function onSelectorButtonClick(effect: Effect) {
 }
 
 function onSignalButtonClick(id: number) {
+  // Stop信号を無効化
+  isStopSignalActive.value = false
+
   // 同じシグナルがクリックされた場合は選択を解除
   if (selectedSignalId.value === id) {
     selectedSignalId.value = null
@@ -476,6 +505,11 @@ function resetDuration() {
 
 // 現在選択されているエフェクトの表示テキストを生成
 const nowPlayingText = computed(() => {
+  // Stop信号がアクティブな場合
+  if (isStopSignalActive.value) {
+    return 'NOW PLAYING: [12] STOP / ODOL SIGNAL / '
+  }
+
   let id = 0
   let name = 'NONE'
 
@@ -590,10 +624,7 @@ const nowPlayingText = computed(() => {
 
         <!-- Stop Button -->
         <div class="stop-button-container">
-          <StopButton
-            :isSelected="!selectedEffect && !selectedSignalId"
-            @stop="stopEffect()"
-          ></StopButton>
+          <StopButton :isSelected="isStopSignalActive" @stop="stopEffect()"></StopButton>
         </div>
       </div>
     </div>
