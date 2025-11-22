@@ -22,7 +22,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 1,
     name: 'Walkman',
-    imageUrl: '/blue/signal_grid.png',
+    imageUrl: '/blue/walkman.png',
   },
   {
     index: 2,
@@ -51,8 +51,8 @@ const blueEffectList = ref<Effect[]>([
   },
   {
     index: 7,
-    name: 'No effect',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
+    name: 'Noise',
+    imageUrl: '/blue/noise.png',
   },
   {
     index: 8,
@@ -149,8 +149,8 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 7,
-    name: 'Red Effect 8',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+8',
+    name: 'Flickering',
+    imageUrl: '/red/flickering.png',
   },
   {
     index: 8,
