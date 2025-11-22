@@ -114,8 +114,8 @@ const yellowEffectList = ref<Effect[]>([
 const redEffectList = ref<Effect[]>([
   {
     index: 0,
-    name: 'Red Effect 1',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+1',
+    name: 'Tenka Ippin',
+    imageUrl: '/red/tenka-ippin.png',
   },
   {
     index: 1,
