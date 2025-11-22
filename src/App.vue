@@ -85,7 +85,7 @@ const yellowEffectList = ref<Effect[]>([
   },
   {
     index: 4,
-    name: 'Yellow Effect 5',
+    name: 'Mosaic',
     imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+5',
   },
   {
