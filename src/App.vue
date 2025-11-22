@@ -27,7 +27,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 2,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+5',
+    imageUrl: '/stop.png',
   },
   {
     index: 3,
@@ -42,7 +42,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 5,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=Effect+6',
+    imageUrl: '/stop.png',
   },
   {
     index: 6,
@@ -57,7 +57,7 @@ const blueEffectList = ref<Effect[]>([
   {
     index: 8,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/000000/ffffff?text=No+Effect',
+    imageUrl: '/stop.png',
   },
 ])
 
@@ -76,7 +76,7 @@ const yellowEffectList = ref<Effect[]>([
   {
     index: 2,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+3',
+    imageUrl: '/stop.png',
   },
   {
     index: 3,
@@ -91,7 +91,7 @@ const yellowEffectList = ref<Effect[]>([
   {
     index: 5,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+6',
+    imageUrl: '/stop.png',
   },
   {
     index: 6,
@@ -106,7 +106,7 @@ const yellowEffectList = ref<Effect[]>([
   {
     index: 8,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ffeb3b/000000?text=Yellow+9',
+    imageUrl: '/stop.png',
   },
 ])
 
@@ -125,7 +125,7 @@ const redEffectList = ref<Effect[]>([
   {
     index: 2,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+3',
+    imageUrl: '/stop.png',
   },
   {
     index: 3,
@@ -134,13 +134,13 @@ const redEffectList = ref<Effect[]>([
   },
   {
     index: 4,
-    name: 'Red Effect 5',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+5',
+    name: 'badTV',
+    imageUrl: '/red/badTV.png',
   },
   {
     index: 5,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+6',
+    imageUrl: '/stop.png',
   },
   {
     index: 6,
@@ -155,7 +155,7 @@ const redEffectList = ref<Effect[]>([
   {
     index: 8,
     name: 'Stop',
-    imageUrl: 'https://via.placeholder.com/200x150/ff2236/ffffff?text=Red+9',
+    imageUrl: '/stop.png',
   },
 ])
 
